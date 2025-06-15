@@ -4,29 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Kehadiran Peperiksaan MRSM Sultan Azlan Shah</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.3/jspdf.plugin.autotable.min.js"></script>
-    <!-- Firebase App (versi 8.x) -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<!-- Firebase Realtime Database (versi 8.x) -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
         body {
             padding: 20px;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             font-family: 'Arial', sans-serif;
-            min-height: 100vh; /* Kekalkan ini jika sudah ada */
-            display: flex; /* Kekalkan ini jika sudah ada */
-            flex-direction: column; /* Kekalkan ini jika sudah ada */
-            padding-bottom: 100px; /* Tambah padding bawah untuk ruang tambahan */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 100px;
         }
         .tab-content {
-        flex: 1 0 auto;
-        padding-bottom: 40px; /* Ruang tambahan dalam tab */
+            flex: 1 0 auto;
+            padding-bottom: 40px;
         }
-
         .header, .footer {
             background-color: #2c3e50;
             color: white;
@@ -38,69 +35,53 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #2c3e50;
-            color: white;
-            padding: 10px;
-            text-align: center;
-
         }
-
         .footer p {
-            font-size: 12px; /* Mengecilkan tulisan */
-            font-style: italic; /* Menjadikan italic */
+            font-size: 12px;
+            font-style: italic;
         }
-
         .table th, .table td {
             vertical-align: middle;
         }
-
         .form-control:focus {
             border-color: #007bff;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
-
-        /* CSS untuk Pilihan 3 */
         .nav-tabs {
             max-width: 1200px;
             margin: 0 auto;
             padding: 10px 0;
         }
-
         .login-section {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 10px 20px;
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-}
-#adminLoginPrompt form {
-    text-align: center; /* Memusatkan kandungan borang */
-}
-
-#adminLoginPrompt .btn {
-    display: block; /* Jadikan butang sebagai blok */
-    margin: 0 auto; /* Memusatkan butang secara mendatar */
-}
-        
-#adminPasswordPrompt {
-    width: fit-content;
-    padding: 0 10px; /* Tambah padding sisi untuk keselesaan */
-    max-width: 100%;
-    margin: 0 auto;
-}
-
-.btn:hover {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        #adminLoginPrompt form {
+            text-align: center;
+        }
+        #adminLoginPrompt .btn {
+            display: block;
+            margin: 0 auto;
+        }
+        #adminPasswordPrompt {
+            width: fit-content;
+            padding: 0 10px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        .btn:hover {
             transform: scale(1.05);
             transition: transform 0.3s ease;
         }
-
         .button-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
         }
-        /* Penyesuaian untuk smartphone */
         @media (max-width: 576px) {
             body {
                 padding: 10px;
@@ -112,37 +93,27 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <body>
-        <body>
-            <div class="header">
-                <h3>SISTEM KEHADIRAN PEPERIKSAAN MRSM SULTAN AZLAN SHAH</h3>
-            </div>
-        
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="main-tab" data-bs-toggle="tab" data-bs-target="#main" type="button" role="tab">Utama</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis" type="button" role="tab">Analisis</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab">Admin</button>
-                </li>
-            </ul>
-            
-            <div class="tab-content" id="myTabContent">
-                <!-- Kandungan tab Utama, Analisis, dan Admin yang telah digabungkan -->
-
-    
+    <div class="header">
+        <h3>SISTEM KEHADIRAN PEPERIKSAAN MRSM SULTAN AZLAN SHAH</h3>
+    </div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="main-tab" data-bs-toggle="tab" data-bs-target="#main" type="button" role="tab" aria-controls="main" aria-selected="true">Utama</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis" type="button" role="tab" aria-controls="analysis" aria-selected="false">Analisis</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab" aria-controls="admin" aria-selected="false">Admin</button>
+        </li>
+    </ul>
     <div class="tab-content" id="myTabContent">
-        <!-- Tab Utama -->
-        <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab">
+        <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab" tabindex="0">
             <div class="container mt-4 fade-in">
                 <h2>Rekod Kehadiran</h2>
                 <form id="attendanceForm">
                     <div class="mb-3">
-                        <label>Peperiksaan:</label>
+                        <label for="examType" class="form-label">Peperiksaan:</label>
                         <select class="form-control" id="examType" required>
                             <option value="">Pilih Peperiksaan</option>
                             <option value="UJIAN SETARA I SEM I">UJIAN SETARA I SEM I</option>
@@ -154,19 +125,19 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label>Tarikh:</label>
+                        <label for="examDate" class="form-label">Tarikh:</label>
                         <input type="date" class="form-control" id="examDate" required>
                     </div>
                     <div class="mb-3">
-                        <label>Masa Dari:</label>
+                        <label for="timeFrom" class="form-label">Masa Dari:</label>
                         <input type="time" class="form-control" id="timeFrom" required>
                     </div>
                     <div class="mb-3">
-                        <label>Masa Hingga:</label>
+                        <label for="timeTo" class="form-label">Masa Hingga:</label>
                         <input type="time" class="form-control" id="timeTo" required>
                     </div>
                     <div class="mb-3">
-                        <label>Jabatan:</label>
+                        <label for="departmentSelect" class="form-label">Jabatan:</label>
                         <select class="form-control" id="departmentSelect" required>
                             <option value="">Pilih Jabatan</option>
                             <option value="Jabatan Sains Sosial">Jabatan Sains Sosial</option>
@@ -176,15 +147,15 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label>Penyelaras:</label>
+                        <label for="coordinatorSelect" class="form-label">Penyelaras:</label>
                         <select class="form-control" id="coordinatorSelect" required>
                             <option value="">Pilih Penyelaras</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label>Subjek:</label>
+                        <label for="subjectSelect" class="form-label">Subjek:</label>
                         <select class="form-control" id="subjectSelect" required>
-                            <option value="">Pilih Subjek</option>
+                      <option value="">Pilih Subjek</option>
                             <option value="Bahasa Melayu">Bahasa Melayu</option>
                             <option value="Bahasa Melayu K1">Bahasa Melayu K1</option>
                              <option value="Bahasa Melayu K2">Bahasa Melayu K2</option>
@@ -226,7 +197,7 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label>Tingkatan:</label>
+                        <label for="formSelect" class="form-label">Tingkatan:</label>
                         <select class="form-control" id="formSelect" onchange="displayStudentList(this.value)" required>
                             <option value="">Pilih Tingkatan</option>
                             <option value="Tingkatan 1">Tingkatan 1</option>
@@ -248,9 +219,16 @@
                                         <th>KELAS</th>
                                         <th>TINGKATAN</th>
                                         <th>TIDAK HADIR</th>
+                              
                                     </tr>
                                 </thead>
-                                <tbody id="berlianTableBody"></tbody>
+                                <tbody id="berlianTableBody">
+                                    <tr>
+                                        <td>-</td>
+                                        <td colspan="3"><strong>Semua Hadir</strong></td>
+                                        <td><input type="checkbox" class="allPresentCheckbox" data-class="Berlian"></td>
+                                    </tr>
+                                </tbody>
                             </table>
                             <h4>Delima</h4>
                             <table class="table table-striped">
@@ -261,9 +239,16 @@
                                         <th>KELAS</th>
                                         <th>TINGKATAN</th>
                                         <th>TIDAK HADIR</th>
+                                        
                                     </tr>
                                 </thead>
-                                <tbody id="delimaTableBody"></tbody>
+                                <tbody id="delimaTableBody">
+                                    <tr>
+                                        <td>-</td>
+                                        <td colspan="3"><strong>Semua Hadir</strong></td>
+                                        <td><input type="checkbox" class="allPresentCheckbox" data-class="Delima"></td>
+                                    </tr>
+                                </tbody>
                             </table>
                             <h4>Intan</h4>
                             <table class="table table-striped">
@@ -274,9 +259,16 @@
                                         <th>KELAS</th>
                                         <th>TINGKATAN</th>
                                         <th>TIDAK HADIR</th>
+                                       
                                     </tr>
                                 </thead>
-                                <tbody id="intanTableBody"></tbody>
+                                <tbody id="intanTableBody">
+                                    <tr>
+                                        <td>-</td>
+                                        <td colspan="3"><strong>Semua Hadir</strong></td>
+                                        <td><input type="checkbox" class="allPresentCheckbox" data-class="Intan"></td>
+                                    </tr>
+                                </tbody>
                             </table>
                             <h4>Nilam</h4>
                             <table class="table table-striped">
@@ -287,9 +279,16 @@
                                         <th>KELAS</th>
                                         <th>TINGKATAN</th>
                                         <th>TIDAK HADIR</th>
+                                       
                                     </tr>
                                 </thead>
-                                <tbody id="nilamTableBody"></tbody>
+                                <tbody id="nilamTableBody">
+                                    <tr>
+                                        <td>-</td>
+                                        <td colspan="3"><strong>Semua Hadir</strong></td>
+                                        <td><input type="checkbox" class="allPresentCheckbox" data-class="Nilam"></td>
+                                    </tr>
+                                </tbody>
                             </table>
                             <h4>Topaz</h4>
                             <table class="table table-striped">
@@ -300,9 +299,16 @@
                                         <th>KELAS</th>
                                         <th>TINGKATAN</th>
                                         <th>TIDAK HADIR</th>
+                                        
                                     </tr>
                                 </thead>
-                                <tbody id="topazTableBody"></tbody>
+                                <tbody id="topazTableBody">
+                                    <tr>
+                                        <td>-</td>
+                                        <td colspan="3"><strong>Semua Hadir</strong></td>
+                                        <td><input type="checkbox" class="allPresentCheckbox" data-class="Topaz"></td>
+                                    </tr>
+                                </tbody>
                             </table>
                             <h4>Zamrud</h4>
                             <table class="table table-striped">
@@ -313,29 +319,43 @@
                                         <th>KELAS</th>
                                         <th>TINGKATAN</th>
                                         <th>TIDAK HADIR</th>
+                                        
                                     </tr>
                                 </thead>
-                                <tbody id="zamrudTableBody"></tbody>
+                                <tbody id="zamrudTableBody">
+                                    <tr>
+                                        <td>-</td>
+                                        <td colspan="3"><strong>Semua Hadir</strong></td>
+                                        <td><input type="checkbox" class="allPresentCheckbox" data-class="Zamrud"></td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="button-container">
-                    <button type="submit" class="btn btn-primary mt-3">Hantar</button>
+                        <button type="submit" class="btn btn-primary mt-3">Hantar</button>
                     </div>
                 </form>
             </div>
         </div>
-
-        <!-- Tab Analisis -->
-        <div class="tab-pane fade" id="analysis" role="tabpanel" aria-labelledby="analysis-tab">
+        <div id="absenceForm" style="display:none; position:fixed; top:20%; left:30%; background:white; padding:20px; border:1px solid black;">
+            <h3>Sebab Ketidakhadiran</h3>
+            <input type="hidden" id="studentName">
+            <input type="hidden" id="studentClass">
+            <input type="hidden" id="studentLevel">
+            <label for="absenceReason" class="form-label">Sebab:</label>
+            <textarea id="absenceReason" class="form-control"></textarea>
+            <button onclick="saveAbsence()" class="btn btn-primary mt-2">Simpan</button>
+            <button onclick="closeForm()" class="btn btn-secondary mt-2">Batal</button>
+        </div>
+        <div class="tab-pane fade" id="analysis" role="tabpanel" aria-labelledby="analysis-tab" tabindex="0">
             <div class="container mt-4 fade-in">
                 <h2>Analisis Kehadiran</h2>
                 <div class="mb-3">
-                    <label>Tarikh:</label>
+                    <label for="analysisDate" class="form-label">Tarikh:</label>
                     <input type="date" class="form-control" id="analysisDate" onchange="generateAnalysisReport()" required>
                 </div>
-                <div id="reportOutput" class="mt-4">
-                    <div id="tingkatan1Table" style="display: none;">
+                <div id="tingkatan1Table" style="display: none;">
                         <h3>Tingkatan 1</h3>
                         <table class="table table-striped">
                             <thead>
@@ -346,6 +366,7 @@
                                     <th>TARIKH</th>
                                     <th>MASA</th>
                                     <th>NAMA PELAJAR TIDAK HADIR</th>
+                                    <th>SEBAB</th>
                                 </tr>
                             </thead>
                             <tbody id="tingkatan1TableBody"></tbody>
@@ -362,12 +383,12 @@
                                     <th>TARIKH</th>
                                     <th>MASA</th>
                                     <th>NAMA PELAJAR TIDAK HADIR</th>
+                                    <th>SEBAB</th>
                                 </tr>
                             </thead>
                             <tbody id="tingkatan2TableBody"></tbody>
                         </table>
                     </div>
-                    
                     <div id="tingkatan3Table" style="display: none;">
                         <h3>Tingkatan 3</h3>
                         <table class="table table-striped">
@@ -379,12 +400,12 @@
                                     <th>TARIKH</th>
                                     <th>MASA</th>
                                     <th>NAMA PELAJAR TIDAK HADIR</th>
+                                    <th>SEBAB</th>
                                 </tr>
                             </thead>
                             <tbody id="tingkatan3TableBody"></tbody>
                         </table>
                     </div>
-                    
                     <div id="tingkatan4Table" style="display: none;">
                         <h3>Tingkatan 4</h3>
                         <table class="table table-striped">
@@ -396,12 +417,12 @@
                                     <th>TARIKH</th>
                                     <th>MASA</th>
                                     <th>NAMA PELAJAR TIDAK HADIR</th>
+                                    <th>SEBAB</th>
                                 </tr>
                             </thead>
                             <tbody id="tingkatan4TableBody"></tbody>
                         </table>
                     </div>
-                    
                     <div id="tingkatan5Table" style="display: none;">
                         <h3>Tingkatan 5</h3>
                         <table class="table table-striped">
@@ -413,18 +434,19 @@
                                     <th>TARIKH</th>
                                     <th>MASA</th>
                                     <th>NAMA PELAJAR TIDAK HADIR</th>
+                                    <th>SEBAB</th>
                                 </tr>
                             </thead>
                             <tbody id="tingkatan5TableBody"></tbody>
                         </table>
                     </div>
+                <div id="reportOutput" class="mt-4">
+                    
                 </div>
                 <button onclick="downloadAnalysisPDF()" class="btn btn-success mt-2">Jana PDF</button>
             </div>
         </div>
-
-        <!-- Tab Admin -->
-        <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+        <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab" tabindex="0">
             <div class="login-section">
                 <button id="adminLoginBtn" class="btn btn-primary" onclick="showAdminLogin()">Log Masuk</button>
                 <button id="adminLogoutBtn" class="btn btn-danger" onclick="logoutAdmin()" style="display: none;">Log Keluar</button>
@@ -438,9 +460,7 @@
                 </form>
             </div>
             <div class="container mt-4 fade-in">
-                <h2></h2><!-- Teks dikosongkan -->
                 <div id="adminContent" style="display: none;">
-                    <!-- Borang Tambah Pelajar -->
                     <h3>Tambah Pelajar</h3>
                     <form id="addStudentForm">
                         <div class="mb-3">
@@ -469,7 +489,6 @@
                         </div>
                         <button type="submit" class="btn btn-success">Tambah Pelajar</button>
                     </form>
-                    <!-- Borang Hapus Pelajar -->
                     <h3 class="mt-4">Hapus Pelajar</h3>
                     <form id="deleteStudentForm">
                         <div class="mb-3">
@@ -498,7 +517,6 @@
                         </div>
                         <button type="submit" class="btn btn-danger">Hapus Pelajar</button>
                     </form>
-                    <!-- Borang Tambah Guru -->
                     <h3 class="mt-4">Tambah Guru</h3>
                     <form id="addTeacherForm">
                         <div class="mb-3">
@@ -506,7 +524,6 @@
                         </div>
                         <button type="submit" class="btn btn-success">Tambah Guru</button>
                     </form>
-                    <!-- Borang Hapus Guru -->
                     <h3 class="mt-4">Hapus Guru</h3>
                     <form id="deleteTeacherForm">
                         <div class="mb-3">
@@ -516,652 +533,223 @@
                         </div>
                         <button type="submit" class="btn btn-danger">Hapus Guru</button>
                     </form>
-                    <!-- Seksyen Muat Naik Excel -->
                     <h3 class="mt-4">Muat Naik Data Pelajar (Excel)</h3>
                     <div class="mb-3">
                         <input type="file" class="form-control" id="excelUpload" accept=".xlsx, .xls">
                         <button onclick="processExcelData()" class="btn btn-primary mt-2">Muat Naik</button>
                     </div>
-                    <!-- Butang Hapus Senarai Nama Pelajar -->
                     <h3 class="mt-4">Hapus Senarai Pelajar</h3>
                     <button onclick="clearStudentList()" class="btn btn-danger">Hapus</button>
-                    <!-- Tambah Seksyen Sejarah Rekod Kehadiran di Sini -->
-            <h3 class="mt-4">Sejarah Rekod Kehadiran</h3>
-            <div id="attendanceHistory" class="mt-3">
-            <div class="mb-3">
-                    <label>Filter Tarikh:</label>
-                    <input type="date" class="form-control" id="historyDateFilter" onchange="filterAttendanceHistory()">
-                </div>   
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>TARIKH</th>
-                            <th>PEPERIKSAAN</th>
-                            <th>SUBJEK</th>
-                            <th>TINGKATAN</th>
-                            <th>KELAS</th>
-                            <th>NAMA PELAJAR</th>
-                            <th>TINDAKAN</th>
-                        </tr>
-                    </thead>
-                    <tbody id="historyTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+                    <h3 class="mt-4">Sejarah Rekod Kehadiran</h3>
+                    <div id="attendanceHistory" class="mt-3">
+                        <div class="mb-3">
+                            <label for="historyDateFilter" class="form-label">Filter Tarikh:</label>
+                            <input type="date" class="form-control" id="historyDateFilter" onchange="filterAttendanceHistory()">
+                        </div>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>TARIKH</th>
+                                    <th>PEPERIKSAAN</th>
+                                    <th>SUBJEK</th>
+                                    <th>TINGKATAN</th>
+                                    <th>KELAS</th>
+                                    <th>NAMA PELAJAR</th>
+                                    <th>SEBAB</th>
+                                    <th>TINDAKAN</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="footer">
+        <p>Disediakan oleh Amin Ramli untuk UPPM MRSM SAS 2025</p>
+    </div>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9qaCOCAiKODvR7AJyxiMJaycs92dceuc",
+            authDomain: "backupkehadiranpeperiksaan.firebaseapp.com",
+            databaseURL: "https://backupkehadiranpeperiksaan-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "backupkehadiranpeperiksaan",
+            storageBucket: "backupkehadiranpeperiksaan.firebasestorage.app",
+            messagingSenderId: "646639462384",
+            appId: "1:646639462384:web:35e2019042a1411cc21f35"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const jsPDF = window.jspdf.jsPDF;
+        let students = [];
+        let teachers = [];
+        let attendanceRecords = [];
+        let isAdminLoggedIn = false;
 
-        <!-- Footer -->
-        <div class="footer">
-            <p>Disediakan oleh Amin Ramli untuk UPPM MRSM SAS 2025</p>
-        </div>
-    
-        <!-- Gantikan bahagian <script> ini dengan kod yang diperbaiki -->
-        <script>
-            // Inisialisasi Firebase
-            const firebaseConfig = {
-                apiKey: "AIzaSyANV3T5j58RQpBlYoxPy2pb28a9PeKi3nY",
-                authDomain: "sistem-kehadiran-peperiksaan.firebaseapp.com",
-                databaseURL: "https://sistem-kehadiran-peperiksaan-default-rtdb.asia-southeast1.firebasedatabase.app",
-                projectId: "sistem-kehadiran-peperiksaan",
-                storageBucket: "sistem-kehadiran-peperiksaan.firebasestorage.app",
-                messagingSenderId: "207072869562",
-                appId: "1:207072869562:web:ebbdaaeec44819503a1683"
-            };
-    
-            firebase.initializeApp(firebaseConfig);
-            const database = firebase.database();
-    
-            // Gantikan definisi asal
-            let students = [];
-            let teachers = [];
-            let attendanceRecords = [];
-    
-            // Ambil data dari Firebase semasa halaman dimuat
-            document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCoordinatorDropdowns();
+            loadAbsenceData();
+            database.ref('students').once('value', (snapshot) => {
+                const data = snapshot.val();
+                students = data ? Object.values(data) : [];
+                if (!data) saveStudentsToFirebase();
+                updateStudentList();
+            });
+            database.ref('teachers').once('value', (snapshot) => {
+                const data = snapshot.val();
+                teachers = data ? Object.values(data) : [
+                    "CIKGU AHMAD FIRDAUS", "CIKGU AINOR AFIZAH", "CIKGU ALKASHAH", "CIKGU ALWANI", "CIKGU AMIRULHAMZA",
+                    "CIKGU ASYIKIN", "CIKGU AZMAIZA", "CIKGU AZNIDAH", "CIKGU CHE MOHD ROZULA", "CIKGU FATIHAH",
+                    "CIKGU HAIRUL", "CIKGU HARYANI", "CIKGU HASLIZA", "CIKGU JUNA",
+                    "CIKGU KU SYAZWANI", "CIKGU MASLINA", "CIKGU MUNIRAH", "CIKGU MURNI", "CIKGU MURSYID",
+                    "CIKGU NORIZAN", "CIKGU NORUL HUDA", "CIKGU NUR AFNI", "CIKGU NUR AZYYATI", "CIKGU NURATIQAH",
+                    "CIKGU NURHAZWAN", "CIKGU NURUL AIN", "CIKGU NURUL AISHA", "CIKGU NURUL HANANI", "CIKGU NURUL SHAHIRA",
+                    "CIKGU NURZALIFAH", "CIKGU PUTERI", "CIKGU RAJA NORMA", "CIKGU ROHAIDA", "CIKGU SAIFUL",
+                    "CIKGU SALMI", "CIKGU SALWANI", "CIKGU SUHAILA", "CIKGU SURAIYA", "CIKGU SYAWAL",
+                    "CIKGU UMMI ILIANI", "CIKGU UMMI MARIANA", "CIKGU WAN AMIR", "CIKGU WAN SYARIZAL", "CIKGU YAZRE",
+                    "CIKGU ZULKHAIREE", "CIKGU ZURAIDAH", "UST MOHAMAD AMIN", "UST YUZRAN", "USTZH FAZILA",
+                    "USTZH NOR FAEZAH", "USTZH SAHARAH", "UST SYAMIL", "CIKGU HALEEZA", "CIKGU AMIMI", "CIKGU ZAMEERA", "CIKGU MASTURINA", "CIKGU SYAMIMI"
+                ];
                 initializeCoordinatorDropdowns();
-                
-                // Ambil senarai pelajar dari Firebase
-                database.ref('students').once('value', (snapshot) => {
-                    const data = snapshot.val();
-                    students = data ? Object.values(data) : [];
-                    updateStudentList();
-                });
-    
-                // Ambil senarai guru dari Firebase
-                database.ref('teachers').once('value', (snapshot) => {
-                    const data = snapshot.val();
-                    teachers = data ? Object.values(data) : [
-                        "CIKGU AHMAD FIRDAUS", "CIKGU AINOR AFIZAH", "CIKGU ALKASHAH", "CIKGU ALWANI", "CIKGU AMIRULHAMZA",
-            "CIKGU ASYIKIN", "CIKGU AZMAIZA", "CIKGU AZNIDAH", "CIKGU CHE MOHD ROZULA", "CIKGU FATIHAH",
-            "CIKGU FATIMAH MANEESA", "CIKGU HAIRUL", "CIKGU HARYANI", "CIKGU HASLIZA", "CIKGU JUNA",
-            "CIKGU KU SYAZWANI", "CIKGU MASLINA", "CIKGU MUNIRAH", "CIKGU MURNI", "CIKGU MURSYID",
-            "CIKGU NORIZAN", "CIKGU NORUL HUDA", "CIKGU NUR AFNI", "CIKGU NUR AZYYATI", "CIKGU NURATIQAH",
-            "CIKGU NURHAZWAN", "CIKGU NURUL AIN", "CIKGU NURUL AISHA", "CIKGU NURUL HANANI", "CIKGU NURUL SHAHIRA",
-            "CIKGU NURZALIFAH", "CIKGU PUTERI", "CIKGU RAJA NORMA", "CIKGU ROHAIDA", "CIKGU SAIFUL",
-            "CIKGU SALMI", "CIKGU SALWANI", "CIKGU SUHAILA", "CIKGU SURAIYA", "CIKGU SYAWAL",
-            "CIKGU UMMI ILIANI", "CIKGU UMMI MARIANA", "CIKGU WAN AMIR", "CIKGU WAN SYARIZAL", "CIKGU YAZRE",
-            "CIKGU ZULKHAIREE", "CIKGU ZURAIDAH", "UST MOHAMAD AMIN", "UST YUZRAN", "USTZH FAZILA",
-            "USTZH NOR FAEZAH", "USTZH SAHARAH", "UST SYAMIL"
-                    ];
-                    initializeCoordinatorDropdowns();
-                });
-    
-                // Ambil rekod kehadiran dari Firebase
-                database.ref('attendanceRecords').once('value', (snapshot) => {
-                    const data = snapshot.val();
-                    attendanceRecords = data ? Object.values(data) : [];
-                });
             });
-    
-            const { jsPDF } = window.jspdf;
-            let isAdminLoggedIn = false;
-    
-            // Inisialisasi dropdown penyelaras dan hapus guru
-            function initializeCoordinatorDropdowns() {
-                const coordinatorDropdown = document.getElementById('coordinatorSelect');
-                const deleteTeacherDropdown = document.getElementById('deleteTeacherSelect');
-                coordinatorDropdown.innerHTML = '<option value="">Pilih Penyelaras</option>';
-                deleteTeacherDropdown.innerHTML = '<option value="">Pilih Guru</option>';
-    
-                teachers.forEach(teacher => {
-                    const option1 = document.createElement('option');
-                    option1.value = teacher;
-                    option1.text = teacher;
-                    coordinatorDropdown.add(option1);
-    
-                    const option2 = document.createElement('option');
-                    option2.value = teacher;
-                    option2.text = teacher;
-                    deleteTeacherDropdown.add(option2);
-                });
-            }
-    
-            // Pengesahan admin dari prompt
-            function showAdminLogin() {
-                document.getElementById('adminLoginPrompt').style.display = 'block';
-            }
-    
-            function verifyAdminPrompt() {
-                const password = document.getElementById('adminPasswordPrompt').value;
-                if (password === 'admin123') {
-                    isAdminLoggedIn = true;
-                    document.getElementById('adminContent').style.display = 'block';
-                    document.getElementById('adminLoginPrompt').style.display = 'none';
-                    document.getElementById('adminLoginBtn').style.display = 'none';
-                    document.getElementById('adminLogoutBtn').style.display = 'inline-block';
-                    document.getElementById('adminPasswordPrompt').value = '';
-                    updateAttendanceHistory(); // Paparkan semua rekod apabila log masuk
-                } else {
-                    alert('Kata laluan salah!');
-                }
-            }
-    
-            function logoutAdmin() {
-                isAdminLoggedIn = false;
-                document.getElementById('adminContent').style.display = 'none';
-                document.getElementById('adminLoginBtn').style.display = 'inline-block';
-                document.getElementById('adminLogoutBtn').style.display = 'none';
-            }
-    
-            // Fungsi untuk memaparkan dan mengemas kini sejarah rekod
-function updateAttendanceHistory(filterDate = null) {
-    const historyTableBody = document.getElementById('historyTableBody');
-    historyTableBody.innerHTML = '';
-
-    // Ambil data terkini dari Firebase setiap kali fungsi dipanggil
-    database.ref('attendanceRecords').once('value', (snapshot) => {
-        const data = snapshot.val();
-        attendanceRecords = data ? Object.values(data) : [];
-
-        let filteredRecords = attendanceRecords;
-        if (filterDate) {
-            filteredRecords = attendanceRecords.filter(record => record.date === filterDate);
-        }
-
-        if (filteredRecords.length === 0) {
-            const row = document.createElement('tr');
-            row.innerHTML = '<td colspan="7" class="text-center">Tiada rekod untuk tarikh ini</td>';
-            historyTableBody.appendChild(row);
-        } else {
-            // Kumpulkan rekod berdasarkan kombinasi unik
-            const groupedRecords = {};
-            filteredRecords.forEach(record => {
-                const key = `${record.examType}|${record.subject}|${record.form}|${record.class}|${record.date}`;
-                if (!groupedRecords[key]) {
-                    groupedRecords[key] = {
-                        date: record.date,
-                        examType: record.examType,
-                        subject: record.subject,
-                        form: record.form,
-                        class: record.class,
-                        studentNames: []
-                    };
-                }
-                if (!record.present) {
-                    groupedRecords[key].studentNames.push(record.studentName);
-                } else if (record.studentName === "Semua Hadir") {
-                    groupedRecords[key].studentNames.push("Semua Hadir");
-                }
+            database.ref('attendanceRecords').once('value', (snapshot) => {
+                const data = snapshot.val();
+                attendanceRecords = data ? Object.values(data) : [];
             });
-
-            // Paparkan rekod yang telah digabungkan
-            let index = 0;
-            Object.values(groupedRecords).forEach(group => {
-                const studentList = group.studentNames.length > 0 
-                    ? group.studentNames.join(", ") 
-                    : "Semua Hadir";
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${group.date}</td>
-                    <td>${group.examType}</td>
-                    <td>${group.subject}</td>
-                    <td>${group.form}</td>
-                    <td>${group.class}</td>
-                    <td>${studentList}</td>
-                    <td><button class="btn btn-danger btn-sm" onclick="deleteAttendanceRecord(${index})">Padam</button></td>
-                `;
-                historyTableBody.appendChild(row);
-                index++;
-            });
-        }
-    });
-}
-    
-            // Fungsi untuk menapis sejarah berdasarkan tarikh
-            function filterAttendanceHistory() {
-                const filterDate = document.getElementById('historyDateFilter').value;
-                updateAttendanceHistory(filterDate);
-            }
-    
-            // Tambah pelajar individu
-            document.getElementById('addStudentForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const newStudent = {
-                    bil: students.length + 1,
-                    nama: document.getElementById('studentName').value,
-                    kelas: document.getElementById('studentClass').value,
-                    tingkatan: document.getElementById('studentForm').value
-                };
-                if (students.some(student => student.nama === newStudent.nama)) {
-                    alert('Nama pelajar ini sudah wujud!');
-                    return;
-                }
-                students.push(newStudent);
-                this.reset();
-                alert('Pelajar berjaya ditambah!');
-                updateStudentList();
-            });
-    
-            // Hapus pelajar
-            document.getElementById('deleteStudentForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const studentName = document.getElementById('deleteStudentName').value;
-                const studentForm = document.getElementById('deleteStudentFormSelect').value;
-                const studentClass = document.getElementById('deleteStudentClass').value;
-                const studentIndex = students.findIndex(student => 
-                    student.nama.toLowerCase().trim() === studentName.toLowerCase().trim() && 
-                    student.tingkatan === studentForm && 
-                    student.kelas === studentClass
-                );
-                if (studentIndex === -1) {
-                    alert('Pelajar tidak ditemui! Pastikan nama, tingkatan, dan kelas betul.');
-                    return;
-                }
-                students.splice(studentIndex, 1);
-                this.reset();
-                alert('Pelajar berjaya dihapus!');
-                updateStudentList();
-            });
-    
-            // Tambah guru
-            document.getElementById('addTeacherForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const teacherName = document.getElementById('teacherName').value;
-    if (teachers.includes(teacherName)) {
-        alert('Nama guru ini sudah wujud!');
-        return;
-    }
-    teachers.push(teacherName);
-    this.reset();
-    alert('Guru berjaya ditambah!');
-    initializeCoordinatorDropdowns();
-    saveTeachersToFirebase(); // Simpan ke Firebase
-});
-    
-            // Hapus guru
-            document.getElementById('deleteTeacherForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const teacherName = document.getElementById('deleteTeacherSelect').value;
-    const teacherIndex = teachers.indexOf(teacherName);
-    if (teacherIndex === -1) {
-        alert('Guru tidak ditemui!');
-        return;
-    }
-    teachers.splice(teacherIndex, 1);
-    this.reset();
-    alert('Guru berjaya dihapus!');
-    initializeCoordinatorDropdowns();
-    saveTeachersToFirebase(); // Simpan ke Firebase
-});
-    
-            // Proses data Excel
-            function processExcelData() {
-                const fileInput = document.getElementById('excelUpload');
-                const file = fileInput.files[0];
-                if (!file) {
-                    alert('Sila pilih fail Excel terlebih dahulu!');
-                    return;
-                }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const validClasses = ['Berlian', 'Delima', 'Intan', 'Nilam', 'Topaz', 'Zamrud'];
-                    workbook.SheetNames.forEach(sheetName => {
-                        const sheet = workbook.Sheets[sheetName];
-                        const excelData = XLSX.utils.sheet_to_json(sheet);
-                        excelData.forEach(row => {
-                            const newStudent = {
-                                bil: row['BIL'] || students.length + 1,
-                                nama: row['NAMA'],
-                                kelas: row['KELAS'],
-                                tingkatan: sheetName
-                            };
-                            if (!validClasses.includes(newStudent.kelas)) {
-                                console.warn(`Kelas tidak sah untuk ${newStudent.nama}: ${newStudent.kelas}`);
-                                return;
-                            }
-                            if (!students.some(student => student.nama === newStudent.nama)) {
-                                students.push(newStudent);
-                            }
-                        });
-                    });
-                    saveStudentsToFirebase();
-                    alert('Data pelajar berjaya dimuatnaik!');
-                    updateStudentList();
-                    fileInput.value = '';
-                };
-                reader.readAsArrayBuffer(file);
-            }
-    
-            // Hapus senarai pelajar
-            function clearStudentList() {
-                if (confirm('Adakah anda pasti mahu menghapus semua senarai pelajar?')) {
-                    students = [];
-                    saveStudentsToFirebase();
-                    alert('Semua pelajar telah dihapus!');
-                    updateStudentList();
-                }
-            }
-    
-            // Kemaskini senarai pelajar di halaman utama
-            function updateStudentList() {
-                const selectedForm = document.getElementById('formSelect').value;
-                if (selectedForm) {
-                    displayStudentList(selectedForm);
-                } else {
-                    const tables = ['berlianTableBody', 'delimaTableBody', 'intanTableBody', 'nilamTableBody', 'topazTableBody', 'zamrudTableBody'];
-                    tables.forEach(tableId => {
-                        document.getElementById(tableId).innerHTML = '';
-                    });
-                    document.getElementById('studentList').style.display = 'none';
-                }
-            }
-    
-            // Papar senarai pelajar mengikut kelas dan susun A-Z
-            function displayStudentList(selectedForm) {
-                const classes = ['Berlian', 'Delima', 'Intan', 'Nilam', 'Topaz', 'Zamrud'];
-                const tableBodies = {
-                    'Berlian': document.getElementById('berlianTableBody'),
-                    'Delima': document.getElementById('delimaTableBody'),
-                    'Intan': document.getElementById('intanTableBody'),
-                    'Nilam': document.getElementById('nilamTableBody'),
-                    'Topaz': document.getElementById('topazTableBody'),
-                    'Zamrud': document.getElementById('zamrudTableBody')
-                };
-                classes.forEach(className => {
-                    tableBodies[className].innerHTML = '';
-                });
-                const formStudents = students.filter(student => student.tingkatan === selectedForm);
-                if (formStudents.length === 0) {
-                    alert('Tiada pelajar didaftarkan untuk tingkatan ini. Sila muat naik data pelajar melalui tab Admin.');
-                    document.getElementById('studentList').style.display = 'none';
-                    return;
-                }
-                formStudents.sort((a, b) => a.nama.localeCompare(b.nama));
-                classes.forEach(className => {
-                    const classStudents = formStudents.filter(student => student.kelas === className);
-                    classStudents.forEach((student, index) => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${index + 1}</td>
-                            <td>${student.nama}</td>
-                            <td>${student.kelas}</td>
-                            <td>${student.tingkatan}</td>
-                            <td><input type="checkbox" class="attendanceCheckbox" data-student-name="${student.nama}" data-class="${className}"></td>
-                        `;
-                        tableBodies[className].appendChild(row);
-                    });
-                    if (classStudents.length > 0) {
-                        const allPresentRow = document.createElement('tr');
-                        allPresentRow.innerHTML = `
-                            <td>-</td>
-                            <td colspan="3"><strong>Semua Hadir</strong></td>
-                            <td><input type="checkbox" class="allPresentCheckbox" data-class="${className}"></td>
-                        `;
-                        tableBodies[className].appendChild(allPresentRow);
-                    }
-                });
-                document.getElementById('studentList').style.display = 'block';
-                document.querySelectorAll('.allPresentCheckbox').forEach(checkbox => {
-                    checkbox.addEventListener('change', function() {
-                        const className = this.getAttribute('data-class');
-                        const studentCheckboxes = document.querySelectorAll(`.attendanceCheckbox[data-class="${className}"]`);
-                        if (this.checked) {
-                            studentCheckboxes.forEach(studentCheckbox => {
-                                studentCheckbox.checked = false;
-                            });
-                        }
-                    });
-                });
-                document.querySelectorAll('.attendanceCheckbox').forEach(checkbox => {
-                    checkbox.addEventListener('change', function() {
-                        const className = this.getAttribute('data-class');
-                        const allPresentCheckbox = document.querySelector(`.allPresentCheckbox[data-class="${className}"]`);
-                        if (this.checked) {
-                            allPresentCheckbox.checked = false;
-                        }
-                    });
-                });
-            }
-    
-            // Simpan pelajar
-            function saveStudentsToFirebase() {
-                database.ref('students').set(students)
-                    .then(() => console.log('Pelajar disimpan ke Firebase'))
-                    .catch(error => console.error('Ralat simpan pelajar:', error));
-            }
-    
-            // Simpan guru
-            function saveTeachersToFirebase() {
-                database.ref('teachers').set(teachers)
-                    .then(() => console.log('Guru disimpan ke Firebase'))
-                    .catch(error => console.error('Ralat simpan guru:', error));
-            }
-    
-            // Simpan rekod kehadiran
-            function saveAttendanceRecordsToFirebase() {
-                database.ref('attendanceRecords').set(attendanceRecords)
-                    .then(() => console.log('Rekod kehadiran disimpan ke Firebase'))
-                    .catch(error => console.error('Ralat simpan rekod kehadiran:', error));
-            }
-    
-            // Padam rekod tertentu
-function deleteAttendanceRecord(groupIndex) {
-    if (confirm('Adakah anda pasti mahu memadam rekod ini?')) {
-        // Ambil data terkini dari Firebase untuk memastikan keselarasan
-        database.ref('attendanceRecords').once('value', (snapshot) => {
-            const data = snapshot.val();
-            attendanceRecords = data ? Object.values(data) : [];
-
-            // Kumpulkan rekod untuk mendapatkan kunci kumpulan
-            const groupedRecords = {};
-            attendanceRecords.forEach(record => {
-                const key = `${record.examType}|${record.subject}|${record.form}|${record.class}|${record.date}`;
-                if (!groupedRecords[key]) {
-                    groupedRecords[key] = [];
-                }
-                groupedRecords[key].push(record);
-            });
-
-            // Padam semua rekod dalam kumpulan yang dipilih
-            const groupKeys = Object.keys(groupedRecords);
-            const selectedGroupKey = groupKeys[groupIndex];
-            const recordsToDelete = groupedRecords[selectedGroupKey];
-
-            // Buang rekod dari attendanceRecords
-            recordsToDelete.forEach(record => {
-                const recordIndex = attendanceRecords.findIndex(r => 
-                    r.date === record.date && 
-                    r.examType === record.examType && 
-                    r.subject === record.subject && 
-                    r.form === record.form && 
-                    r.class === record.class && 
-                    r.studentName === record.studentName
-                );
-                if (recordIndex !== -1) {
-                    attendanceRecords.splice(recordIndex, 1);
-                }
-            });
-
-            saveAttendanceRecordsToFirebase(); // Simpan perubahan ke Firebase
-            updateAttendanceHistory(); // Kemas kini paparan sejarah
-            alert('Rekod berjaya dipadam!');
         });
-    }
-}
-    
-            // Hantar kehadiran ke Firebase
-            // Hantar kehadiran ke Firebase
-document.getElementById('attendanceForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const examType = document.getElementById('examType').value;
-    const date = document.getElementById('examDate').value;
-    const timeFrom = document.getElementById('timeFrom').value;
-    const timeTo = document.getElementById('timeTo').value;
-    const department = document.getElementById('departmentSelect').value;
-    const coordinator = document.getElementById('coordinatorSelect').value;
-    const subject = document.getElementById('subjectSelect').value;
-    const selectedForm = document.getElementById('formSelect').value;
-    const checkboxes = document.querySelectorAll('.attendanceCheckbox');
-    const allPresentCheckboxes = document.querySelectorAll('.allPresentCheckbox');
 
-    const allPresentClasses = new Set();
-    let hasAbsent = false;
-    let hasAllPresent = false;
-
-    // Semak kotak "Semua Hadir"
-    allPresentCheckboxes.forEach(checkbox => {
-        if (checkbox.checked) {
-            const className = checkbox.getAttribute('data-class');
-            allPresentClasses.add(className);
-            attendanceRecords.push({
-                examType,
-                date,
-                time: `${timeFrom} - ${timeTo}`,
-                form: selectedForm,
-                class: className,
-                department,
-                coordinator,
-                subject,
-                studentName: "Semua Hadir",
-                present: true
+        function initializeCoordinatorDropdowns() {
+            const coordinatorDropdown = document.getElementById('coordinatorSelect');
+            const deleteTeacherDropdown = document.getElementById('deleteTeacherSelect');
+            coordinatorDropdown.innerHTML = '<option value="">Pilih Penyelaras</option>';
+            deleteTeacherDropdown.innerHTML = '<option value="">Pilih Guru</option>';
+            teachers.forEach(teacher => {
+                const option1 = document.createElement('option');
+                option1.value = teacher;
+                option1.text = teacher;
+                coordinatorDropdown.appendChild(option1);
+                const option2 = document.createElement('option');
+                option2.value = teacher;
+                option2.text = teacher;
+                deleteTeacherDropdown.appendChild(option2);
             });
-            hasAllPresent = true;
         }
-    });
 
-    // Semak kotak "Tidak Hadir"
-    checkboxes.forEach(checkbox => {
-        if (checkbox.checked) {
-            const studentName = checkbox.getAttribute('data-student-name');
-            const className = checkbox.getAttribute('data-class');
-            const isAbsent = checkbox.checked;
+        function showAdminLogin() {
+            document.getElementById('adminLoginPrompt').style.display = 'block';
+        }
 
-            if (!allPresentClasses.has(className)) {
-                const student = students.find(s => s.nama === studentName);
-                attendanceRecords.push({
-                    examType,
-                    date,
-                    time: `${timeFrom} - ${timeTo}`,
-                    form: selectedForm,
-                    class: student.kelas,
-                    department,
-                    coordinator,
-                    subject,
-                    studentName,
-                    present: !isAbsent
-                });
-                hasAbsent = true;
+        function verifyAdminPrompt() {
+            const password = document.getElementById('adminPasswordPrompt').value.trim();
+            if (password === 'admin123') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminContent').style.display = 'block';
+                document.getElementById('adminLoginPrompt').style.display = 'none';
+                document.getElementById('adminLoginBtn').style.display = 'none';
+                document.getElementById('adminLogoutBtn').style.display = 'inline-block';
+                document.getElementById('adminPasswordPrompt').value = '';
+                updateAttendanceHistory();
+            } else {
+                alert('Kata laluan salah! Sila masukkan "admin123" tanpa ruang tambahan.');
             }
         }
-    });
 
-    // Jika tiada kotak ditandakan, anggap semua hadir untuk setiap kelas
-    if (!hasAbsent && !hasAllPresent) {
-        const classes = ['Berlian', 'Delima', 'Intan', 'Nilam', 'Topaz', 'Zamrud'];
-        const formStudents = students.filter(student => student.tingkatan === selectedForm);
-        
-        if (formStudents.length > 0) {
-            classes.forEach(className => {
-                const classStudents = formStudents.filter(student => student.kelas === className);
-                if (classStudents.length > 0) { // Hanya tambah jika kelas mempunyai pelajar
-                    attendanceRecords.push({
-                        examType,
-                        date,
-                        time: `${timeFrom} - ${timeTo}`,
-                        form: selectedForm,
-                        class: className,
-                        department,
-                        coordinator,
-                        subject,
-                        studentName: "Semua Hadir",
-                        present: true
-                    });
-                }
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminContent').style.display = 'none';
+            document.getElementById('adminLoginBtn').style.display = 'inline-block';
+            document.getElementById('adminLogoutBtn').style.display = 'none';
+        }
+
+        function showAbsenceForm(name, studentClass, level) {
+            document.getElementById('studentName').value = name;
+            document.getElementById('studentClass').value = studentClass;
+            document.getElementById('studentLevel').value = level;
+            document.getElementById('absenceForm').style.display = 'block';
+        }
+
+        function saveAbsence() {
+            const name = document.getElementById('studentName').value;
+            const studentClass = document.getElementById('studentClass').value;
+            const level = document.getElementById('studentLevel').value;
+            const reason = document.getElementById('absenceReason').value;
+            const exam = document.getElementById('examType').value;
+            const date = document.getElementById('examDate').value;
+            const subject = document.getElementById('subjectSelect').value;
+            if (!name || !studentClass || !level || !reason || !exam || !date || !subject) {
+                alert('Sila isi semua medan wajib!');
+                return;
+            }
+            const key = `${name}_${exam}_${date}_${subject}`;
+            database.ref('absences/' + key).set({
+                name: name,
+                class: studentClass,
+                level: level,
+                reason: reason,
+                exam: exam,
+                date: date,
+                subject: subject,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            }).then(() => {
+                alert("Data ketidakhadiran berjaya disimpan!");
+                closeForm();
+                loadAbsenceData();
+            }).catch(error => {
+                console.error("Ralat menyimpan data: ", error);
             });
         }
-    }
 
-    saveAttendanceRecordsToFirebase(); // Simpan ke Firebase
-    alert('Kehadiran berjaya dihantar!');
-    document.getElementById('studentList').style.display = 'none';
-    document.getElementById('attendanceForm').reset();
-});
-    
-            // Jana laporan analisis automatik
-            // Jana laporan analisis automatik
-function generateAnalysisReport() {
-    const date = document.getElementById('analysisDate').value;
-    if (!date) return;
+        function closeForm() {
+            document.getElementById('absenceForm').style.display = 'none';
+            document.getElementById('absenceReason').value = '';
+        }
 
-    // Ambil data terkini dari Firebase
-    database.ref('attendanceRecords').once('value', (snapshot) => {
+  function loadAbsenceData() {
+    // Dapatkan nilai tarikh dari input analisis
+    const analysisDateInput = document.getElementById('analysisDate');
+    const selectedDate = analysisDateInput ? analysisDateInput.value : null;
+
+    database.ref('absences').once('value', (snapshot) => {
         const data = snapshot.val();
-        attendanceRecords = data ? Object.values(data) : [];
-
-        const forms = ['Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'];
-        forms.forEach((form, index) => {
+        const absences = data ? Object.values(data) : [];
+        const levels = ["Tingkatan 1", "Tingkatan 2", "Tingkatan 3", "Tingkatan 4", "Tingkatan 5"];
+        levels.forEach((level, index) => {
             const tableBody = document.getElementById(`tingkatan${index + 1}TableBody`);
             const tableDiv = document.getElementById(`tingkatan${index + 1}Table`);
             tableBody.innerHTML = '';
-
-            // Saring rekod untuk tarikh dan tingkatan tertentu
-            const records = attendanceRecords.filter(record => 
-                record.date === date && record.form === form
-            );
-
-            if (records.length > 0) {
-                // Kumpulkan rekod berdasarkan kombinasi unik
-                const groupedRecords = {};
-                records.forEach(record => {
-                    const key = `${record.subject}|${record.coordinator}|${record.class}|${record.date}|${record.time}`;
-                    if (!groupedRecords[key]) {
-                        groupedRecords[key] = {
-                            subject: record.subject,
-                            coordinator: record.coordinator,
-                            class: record.class,
-                            date: record.date,
-                            time: record.time,
-                            studentNames: []
-                        };
-                    }
-                    // Hanya tambah nama pelajar jika tidak hadir (present: false)
-                    if (!record.present) {
-                        groupedRecords[key].studentNames.push(record.studentName);
-                    } else if (record.studentName === "Semua Hadir") {
-                        groupedRecords[key].studentNames.push("Semua Hadir");
-                    }
+            // Tapis ikut tarikh jika ada tarikh dipilih
+            let formAbsences = absences.filter(absence => absence.level === level);
+            if (selectedDate) {
+                formAbsences = formAbsences.filter(absence => absence.date === selectedDate);
+            }
+            if (formAbsences.length > 0 && selectedDate) {
+                // ... (kod asal anda untuk paparkan data) ...
+                // (biarkan kod asal dari formAbsences.forEach hingga tableBody.appendChild(fragment);)
+                // (jangan lupa letak kod asal di sini)
+                const groupedAbsences = [];
+                formAbsences.forEach(absence => {
+                    groupedAbsences.push({
+                        subject: absence.subject || '-',
+                        coordinator: absence.coordinator || '-',
+                        class: absence.class || '-',
+                        date: absence.date || '-',
+                        time: absence.time || '-',
+                        studentName: absence.name,
+                        reason: absence.reason || '-'
+                    });
                 });
-
-                // Paparkan rekod yang telah digabungkan
                 const fragment = document.createDocumentFragment();
-                Object.values(groupedRecords).forEach(group => {
-                    const studentList = group.studentNames.length > 0 
-                        ? group.studentNames.join(", ") 
-                        : "Semua Hadir"; // Jika tiada nama pelajar tidak hadir
+                groupedAbsences.forEach(absence => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${group.subject}</td>
-                        <td>${group.coordinator}</td>
-                        <td>${group.class}</td>
-                        <td>${group.date}</td>
-                        <td>${group.time}</td>
-                        <td>${studentList}</td>
+                        <td>${absence.subject}</td>
+                        <td>${absence.coordinator}</td>
+                        <td>${absence.class}</td>
+                        <td>${absence.date}</td>
+                        <td>${absence.time}</td>
+                        <td>${absence.studentName}</td>
+                        <td>${absence.reason}</td>
                     `;
                     fragment.appendChild(row);
                 });
@@ -1173,112 +761,625 @@ function generateAnalysisReport() {
         });
     });
 }
-    
-            // Jana PDF analisis mengikut reka bentuk jadual web
-function downloadAnalysisPDF() {
-    const date = document.getElementById('analysisDate').value;
-    if (!date) {
-        alert('Sila pilih tarikh terlebih dahulu!');
-        return;
+
+        function updateAttendanceHistory(filterDate = null) {
+            const historyTableBody = document.getElementById('historyTableBody');
+            historyTableBody.innerHTML = '';
+            database.ref('attendanceRecords').once('value', (snapshot) => {
+                const data = snapshot.val();
+                attendanceRecords = data ? Object.values(data) : [];
+                let filteredRecords = filterDate ? attendanceRecords.filter(record => record.date === filterDate) : attendanceRecords;
+                if (filteredRecords.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="8" class="text-center">Tiada rekod untuk tarikh ini</td>';
+                    historyTableBody.appendChild(row);
+                } else {
+             const groupedRecords = [];
+filteredRecords.forEach(record => {
+    if (!record.present) {
+        groupedRecords.push({
+            date: record.date || '-',
+            examType: record.examType || '-',
+            subject: record.subject || '-',
+            form: record.form || '-',
+            class: record.class || '-',
+            studentName: record.studentName,
+            reason: record.reason || '-'
+        });
+    } else if (record.studentName === "Semua Hadir") {
+        const hasAbsent = groupedRecords.some(r => r.class === record.class && r.subject === record.subject && r.date === record.date);
+        if (!hasAbsent) {
+            groupedRecords.push({
+                date: record.date || '-',
+                examType: record.examType || '-',
+                subject: record.subject || '-',
+                form: record.form || '-',
+                class: record.class || '-',
+                studentName: "Semua Hadir",
+                reason: '-'
+            });
+        }
     }
-
-    const doc = new jsPDF();
-    doc.setFontSize(16);
-    doc.text('SENARAI NAMA PELAJAR YANG TIDAK MENDUDUKI PEPERIKSAAN', 105, 20, { align: 'center' });
-
-    const firstRecord = attendanceRecords.find(record => record.date === date);
-    const examType = firstRecord ? firstRecord.examType : 'Tidak Ditentukan';
-
-    doc.setFontSize(12);
-    doc.text(`Peperiksaan: ${examType}`, 20, 30);
-    doc.text(`Tarikh: ${date}`, 20, 40);
-
-    let yPosition = 50;
-    const forms = ['Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'];
-    let hasData = false;
-
-    forms.forEach((form, index) => {
-        const records = attendanceRecords.filter(record => 
-            record.date === date && record.form === form
-        );
-
-        if (records.length > 0) {
-            hasData = true;
-            doc.setFontSize(14);
-            doc.text(form, 20, yPosition);
-            yPosition += 10;
-
-            // Kumpulkan rekod berdasarkan kombinasi unik
-            const groupedRecords = {};
-            records.forEach(record => {
-                const key = `${record.subject}|${record.coordinator}|${record.class}|${record.date}|${record.time}`;
-                if (!groupedRecords[key]) {
-                    groupedRecords[key] = {
-                        subject: record.subject,
-                        coordinator: record.coordinator,
-                        class: record.class,
-                        date: record.date,
-                        time: record.time,
-                        studentNames: []
-                    };
-                }
-                if (!record.present) {
-                    groupedRecords[key].studentNames.push(record.studentName);
-                } else if (record.studentName === "Semua Hadir") {
-                    groupedRecords[key].studentNames.push("Semua Hadir");
+});
+let index = 0;
+const fragment = document.createDocumentFragment();
+groupedRecords.forEach(record => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${record.date}</td>
+        <td>${record.examType}</td>
+        <td>${record.subject}</td>
+        <td>${record.form}</td>
+        <td>${record.class}</td>
+        <td>${record.studentName}</td>
+        <td>${record.reason}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteAttendanceRecord(${index})">Padam</button></td>
+    `;
+    fragment.appendChild(row);
+    index++;
+});
+historyTableBody.appendChild(fragment);
                 }
             });
+        }
 
-            // Format data untuk PDF
-            const bodyData = Object.values(groupedRecords).map(group => {
-                const studentList = group.studentNames.length > 0 
-                    ? group.studentNames.join(", ") 
-                    : "Semua Hadir";
-                return [
-                    group.subject || '',
-                    group.coordinator || '',
-                    group.class || '',
-                    group.date || '',
-                    group.time || '',
-                    studentList
-                ];
-            });
+        function filterAttendanceHistory() {
+            const filterDate = document.getElementById('historyDateFilter').value;
+            updateAttendanceHistory(filterDate);
+        }
 
-            doc.autoTable({
-                startY: yPosition,
-                head: [['SUBJEK', 'PENYELARAS', 'KELAS', 'TARIKH', 'MASA', 'NAMA PELAJAR TIDAK HADIR']],
-                body: bodyData,
-                theme: 'striped',
-                styles: { fontSize: 10 },
-                headStyles: { fillColor: [44, 62, 80] },
-                margin: { left: 20, right: 20 }
-            });
+        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newStudent = {
+                bil: students.length + 1,
+                nama: document.getElementById('studentName').value,
+                kelas: document.getElementById('studentClass').value,
+                tingkatan: document.getElementById('studentForm').value
+            };
+            if (students.some(student => student.nama === newStudent.nama)) {
+                alert('Nama pelajar ini sudah wujud!');
+                return;
+            }
+            students.push(newStudent);
+            this.reset();
+            alert('Pelajar berjaya ditambah!');
+            saveStudentsToFirebase();
+            updateStudentList();
+        });
 
-            yPosition = doc.lastAutoTable.finalY + 10;
-            if (yPosition > 270) {
-                doc.addPage();
-                yPosition = 20;
+        document.getElementById('deleteStudentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const studentName = document.getElementById('deleteStudentName').value;
+            const studentForm = document.getElementById('deleteStudentFormSelect').value;
+            const studentClass = document.getElementById('deleteStudentClass').value;
+            const studentIndex = students.findIndex(student => 
+                student.nama.toLowerCase().trim() === studentName.toLowerCase().trim() && 
+                student.tingkatan === studentForm && 
+                student.kelas === studentClass
+            );
+            if (studentIndex === -1) {
+                alert('Pelajar tidak ditemui! Pastikan nama, tingkatan, dan kelas betul.');
+                return;
+            }
+            students.splice(studentIndex, 1);
+            this.reset();
+            alert('Pelajar berjaya dihapus!');
+            saveStudentsToFirebase();
+            updateStudentList();
+        });
+
+        document.getElementById('addTeacherForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const teacherName = document.getElementById('teacherName').value;
+            if (teachers.includes(teacherName)) {
+                alert('Nama guru ini sudah wujud!');
+                return;
+            }
+            teachers.push(teacherName);
+            this.reset();
+            alert('Guru berjaya ditambah!');
+            initializeCoordinatorDropdowns();
+            saveTeachersToFirebase();
+        });
+
+        document.getElementById('deleteTeacherForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const teacherName = document.getElementById('deleteTeacherSelect').value;
+            const teacherIndex = teachers.indexOf(teacherName);
+            if (teacherIndex === -1) {
+                alert('Guru tidak ditemui!');
+                return;
+            }
+            teachers.splice(teacherIndex, 1);
+            this.reset();
+            alert('Guru berjaya dihapus!');
+            initializeCoordinatorDropdowns();
+            saveTeachersToFirebase();
+        });
+
+        function processExcelData() {
+            const fileInput = document.getElementById('excelUpload');
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Sila pilih fail Excel terlebih dahulu!');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const validClasses = ['Berlian', 'Delima', 'Intan', 'Nilam', 'Topaz', 'Zamrud'];
+                workbook.SheetNames.forEach(sheetName => {
+                    const sheet = workbook.Sheets[sheetName];
+                    const excelData = XLSX.utils.sheet_to_json(sheet);
+                    excelData.forEach(row => {
+                        const newStudent = {
+                            bil: row['BIL'] || students.length + 1,
+                            nama: row['NAMA'],
+                            kelas: row['KELAS'],
+                            tingkatan: sheetName
+                        };
+                        if (!validClasses.includes(newStudent.kelas)) {
+                            console.warn(`Kelas tidak sah untuk ${newStudent.nama}: ${newStudent.kelas}`);
+                            return;
+                        }
+                        if (!students.some(student => student.nama === newStudent.nama)) {
+                            students.push(newStudent);
+                        }
+                    });
+                });
+                saveStudentsToFirebase();
+                alert('Data pelajar berjaya dimuatnaik!');
+                updateStudentList();
+                fileInput.value = '';
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function clearStudentList() {
+            if (confirm('Adakah anda pasti mahu menghapus semua senarai pelajar?')) {
+                students = [];
+                saveStudentsToFirebase();
+                alert('Semua pelajar telah dihapus!');
+                updateStudentList();
             }
         }
-    });
 
-    if (!hasData) {
-        alert('Tiada rekod kehadiran untuk tarikh yang dipilih!');
+        function updateStudentList() {
+            const selectedForm = document.getElementById('formSelect').value;
+            if (selectedForm) {
+                displayStudentList(selectedForm);
+            } else {
+                const tables = ['berlianTableBody', 'delimaTableBody', 'intanTableBody', 'nilamTableBody', 'topazTableBody', 'zamrudTableBody'];
+                tables.forEach(tableId => {
+                    const tableBody = document.getElementById(tableId);
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td>-</td>
+                            <td colspan="3"><strong>Semua Hadir</strong></td>
+                            <td><input type="checkbox" class="allPresentCheckbox" data-class="${tableId.replace('TableBody', '')}"></td>
+                        </tr>
+                    `;
+                });
+                document.getElementById('studentList').style.display = 'none';
+            }
+        }
+
+        function displayStudentList(selectedForm) {
+            const classes = ['Berlian', 'Delima', 'Intan', 'Nilam', 'Topaz', 'Zamrud'];
+            const tableBodies = {
+                'Berlian': document.getElementById('berlianTableBody'),
+                'Delima': document.getElementById('delimaTableBody'),
+                'Intan': document.getElementById('intanTableBody'),
+                'Nilam': document.getElementById('nilamTableBody'),
+                'Topaz': document.getElementById('topazTableBody'),
+                'Zamrud': document.getElementById('zamrudTableBody')
+            };
+            classes.forEach(className => {
+                tableBodies[className].innerHTML = `
+                    <tr>
+                        <td>-</td>
+                        <td colspan="3"><strong>Semua Hadir</strong></td>
+                        <td><input type="checkbox" class="allPresentCheckbox" data-class="${className}"></td>
+                    </tr>
+                `;
+            });
+            const formStudents = students.filter(student => student.tingkatan === selectedForm);
+            if (formStudents.length === 0) {
+                alert('Tiada pelajar didaftarkan untuk tingkatan ini. Sila muat naik data pelajar melalui tab Admin.');
+                document.getElementById('studentList').style.display = 'none';
+                return;
+            }
+            database.ref('absences').once('value', (snapshot) => {
+                const absences = snapshot.val() ? Object.values(snapshot.val()) : [];
+                formStudents.sort((a, b) => a.nama.localeCompare(b.nama));
+                classes.forEach(className => {
+                    const classStudents = formStudents.filter(student => student.kelas === className);
+                    if (classStudents.length > 0) {
+                        tableBodies[className].innerHTML = '';
+                        classStudents.forEach((student, index) => {
+                            const absence = absences.find(a => a.name === student.nama && a.level === selectedForm);
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td>${student.nama}</td>
+                                <td>${student.kelas}</td>
+                                <td>${student.tingkatan}</td>
+                                <td><input type="checkbox" class="attendanceCheckbox" data-student-name="${student.nama}" data-class="${className}"></td>
+                                
+                            `;
+                            tableBodies[className].appendChild(row);
+                        });
+                        const allPresentRow = document.createElement('tr');
+                        allPresentRow.innerHTML = `
+                            <td>-</td>
+                            <td colspan="3"><strong>Semua Hadir</strong></td>
+                            <td><input type="checkbox" class="allPresentCheckbox" data-class="${className}"></td>
+                        `;
+                        tableBodies[className].appendChild(allPresentRow);
+                    }
+                });
+                document.getElementById('studentList').style.display = 'block';
+                document.querySelectorAll('.attendanceCheckbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const className = this.getAttribute('data-class');
+                        const studentName = this.getAttribute('data-student-name');
+                        const allPresentCheckbox = document.querySelector(`.allPresentCheckbox[data-class="${className}"]`);
+                        if (this.checked) {
+                            if (allPresentCheckbox) allPresentCheckbox.checked = false;
+                            showAbsenceForm(studentName, className, selectedForm);
+                        } else {
+                            const key = `${studentName}_${document.getElementById('examType').value}_${document.getElementById('examDate').value}_${document.getElementById('subjectSelect').value}`;
+                            database.ref('absences/' + key).remove();
+                        }
+                    });
+                });
+                document.querySelectorAll('.allPresentCheckbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const className = this.getAttribute('data-class');
+                        const studentCheckboxes = document.querySelectorAll(`.attendanceCheckbox[data-class="${className}"]`);
+                        if (this.checked) {
+                            studentCheckboxes.forEach(studentCheckbox => {
+                                studentCheckbox.checked = false;
+                                const studentName = studentCheckbox.getAttribute('data-student-name');
+                                const key = `${studentName}_${document.getElementById('examType').value}_${document.getElementById('examDate').value}_${document.getElementById('subjectSelect').value}`;
+                                database.ref('absences/' + key).remove();
+                            });
+                        }
+                    });
+                });
+            });
+        }
+
+        function saveStudentsToFirebase() {
+            database.ref('students').set(students)
+                .then(() => console.log('Pelajar disimpan ke Firebase'))
+                .catch(error => console.error('Ralat simpan pelajar:', error));
+        }
+
+        function saveTeachersToFirebase() {
+            database.ref('teachers').set(teachers)
+                .then(() => console.log('Guru disimpan ke Firebase'))
+                .catch(error => console.error('Ralat simpan guru:', error));
+        }
+
+        function saveAttendanceRecordsToFirebase() {
+            database.ref('attendanceRecords').set(attendanceRecords)
+                .then(() => console.log('Rekod kehadiran disimpan ke Firebase'))
+                .catch(error => console.error('Ralat simpan rekod kehadiran:', error));
+        }
+
+        function deleteAttendanceRecord(groupIndex) {
+            if (confirm('Adakah anda pasti mahu memadam rekod ini?')) {
+                database.ref('attendanceRecords').once('value', (snapshot) => {
+                    const data = snapshot.val();
+                    attendanceRecords = data ? Object.values(data) : [];
+                    const groupedRecords = {};
+                    attendanceRecords.forEach(record => {
+                        const key = `${record.examType}|${record.subject}|${record.form}|${record.class}|${record.date}`;
+                        if (!groupedRecords[key]) {
+                            groupedRecords[key] = [];
+                        }
+                        groupedRecords[key].push(record);
+                    });
+                    const groupKeys = Object.keys(groupedRecords);
+                    const selectedGroupKey = groupKeys[groupIndex];
+                    const recordsToDelete = groupedRecords[selectedGroupKey];
+                    recordsToDelete.forEach(record => {
+                        const recordIndex = attendanceRecords.findIndex(r => 
+                            r.date === record.date && 
+                            r.examType === record.examType && 
+                            r.subject === record.subject && 
+                            r.form === record.form && 
+                            r.class === record.class && 
+                            r.studentName === record.studentName
+                        );
+                        if (recordIndex !== -1) {
+                            attendanceRecords.splice(recordIndex, 1);
+                        }
+                    });
+                    saveAttendanceRecordsToFirebase();
+                    updateAttendanceHistory();
+                    alert('Rekod berjaya dipadam!');
+                });
+            }
+        }
+
+        document.getElementById('attendanceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const examType = document.getElementById('examType').value;
+            const date = document.getElementById('examDate').value;
+            const timeFrom = document.getElementById('timeFrom').value;
+            const timeTo = document.getElementById('timeTo').value;
+            const department = document.getElementById('departmentSelect').value;
+            const coordinator = document.getElementById('coordinatorSelect').value;
+            const subject = document.getElementById('subjectSelect').value;
+            const selectedForm = document.getElementById('formSelect').value;
+            const checkboxes = document.querySelectorAll('.attendanceCheckbox');
+            const allPresentCheckboxes = document.querySelectorAll('.allPresentCheckbox');
+            const allPresentClasses = new Set();
+            let hasAbsent = false;
+            let hasAllPresent = false;
+
+            database.ref('absences').once('value', (snapshot) => {
+                const absences = snapshot.val() ? Object.values(snapshot.val()) : [];
+                allPresentCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        const className = checkbox.getAttribute('data-class');
+                        allPresentClasses.add(className);
+                        attendanceRecords.push({
+                            examType,
+                            date,
+                            time: `${timeFrom} - ${timeTo}`,
+                            form: selectedForm,
+                            class: className,
+                            department,
+                            coordinator,
+                            subject,
+                            studentName: "Semua Hadir",
+                            present: true,
+                            reason: '-'
+                        });
+                        hasAllPresent = true;
+                    }
+                });
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        const studentName = checkbox.getAttribute('data-student-name');
+                        const className = checkbox.getAttribute('data-class');
+                        const absence = absences.find(a => a.name === studentName && a.exam === examType && a.date === date && a.subject === subject);
+                        if (!allPresentClasses.has(className)) {
+                            const student = students.find(s => s.nama === studentName);
+                            attendanceRecords.push({
+                                examType,
+                                date,
+                                time: `${timeFrom} - ${timeTo}`,
+                                form: selectedForm,
+                                class: student.kelas,
+                                department,
+                                coordinator,
+                                subject,
+                                studentName,
+                                present: false,
+                                reason: absence ? absence.reason : '-'
+                            });
+                            hasAbsent = true;
+                        }
+                    }
+                });
+                if (!hasAbsent && !hasAllPresent) {
+                    const classes = ['Berlian', 'Delima', 'Intan', 'Nilam', 'Topaz', 'Zamrud'];
+                    const formStudents = students.filter(student => student.tingkatan === selectedForm);
+                    if (formStudents.length > 0) {
+                        classes.forEach(className => {
+                            const classStudents = formStudents.filter(student => student.kelas === className);
+                            if (classStudents.length > 0) {
+                                attendanceRecords.push({
+                                    examType,
+                                    date,
+                                    time: `${timeFrom} - ${timeTo}`,
+                                    form: selectedForm,
+                                    class: className,
+                                    department,
+                                    coordinator,
+                                    subject,
+                                    studentName: "Semua Hadir",
+                                    present: true,
+                                    reason: '-'
+                                });
+                            }
+                        });
+                    }
+                }
+                saveAttendanceRecordsToFirebase();
+                alert('Kehadiran berjaya dihantar!');
+                document.getElementById('studentList').style.display = 'none';
+                document.getElementById('attendanceForm').reset();
+                loadAbsenceData();
+            });
+        });
+
+function generateAnalysisReport() {
+    const date = document.getElementById('analysisDate').value;
+    const reportOutput = document.getElementById('reportOutput');
+    // Kosongkan reportOutput
+    reportOutput.innerHTML = '';
+    // Sembunyikan semua jadual
+    for (let i = 1; i <= 5; i++) {
+        document.getElementById(`tingkatan${i}Table`).style.display = 'none';
+    }
+    // Jika tiada tarikh, papar mesej sahaja
+    if (!date) {
+        reportOutput.innerHTML = `<div class="alert alert-info text-center">Sila pilih tarikh untuk muat data.</div>`;
         return;
     }
+    // Jika ada tarikh, masukkan semula jadual ke dalam reportOutput
+    for (let i = 1; i <= 5; i++) {
+        const tableDiv = document.getElementById(`tingkatan${i}Table`);
+        tableDiv.style.display = 'block';
+        reportOutput.appendChild(tableDiv);
+    }
 
-    doc.setFontSize(10);
-    doc.text('Laporan ini disediakan oleh AJK Tingkatan UPPM MRSM SAS', 105, 280, { align: 'center' });
-    doc.save(`Laporan_Kehadiran_${date}.pdf`);
+    // Papar data dari attendanceRecords ikut tarikh
+    database.ref('attendanceRecords').once('value', (snapshot) => {
+        const data = snapshot.val();
+        const attendanceRecords = data ? Object.values(data) : [];
+        const forms = ['Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'];
+        const kelasOrder = ['Berlian', 'Delima', 'Intan', 'Nilam', 'Topaz', 'Zamrud'];
+
+        forms.forEach((form, index) => {
+            const tableBody = document.getElementById(`tingkatan${index + 1}TableBody`);
+            const tableDiv = document.getElementById(`tingkatan${index + 1}Table`);
+            tableBody.innerHTML = '';
+            // Tapis rekod ikut tarikh & tingkatan
+            const records = attendanceRecords.filter(record => record.date === date && record.form === form);
+            if (records.length > 0) {
+                // Kumpul dan susun rekod ikut kelas
+                const groupedRecords = [];
+                records.forEach(record => {
+                    if (!record.present) {
+                        groupedRecords.push({
+                            subject: record.subject,
+                            coordinator: record.coordinator || '-',
+                            class: record.class,
+                            date: record.date,
+                            time: record.time || '-',
+                            studentName: record.studentName,
+                            reason: record.reason || '-'
+                        });
+                    } else if (record.studentName === "Semua Hadir") {
+                        // Hanya tambah "Semua Hadir" jika tiada pelajar tidak hadir untuk kelas ini
+                        const hasAbsent = groupedRecords.some(r => r.class === record.class && r.subject === record.subject && r.date === record.date);
+                        if (!hasAbsent) {
+                            groupedRecords.push({
+                                subject: record.subject,
+                                coordinator: record.coordinator || '-',
+                                class: record.class,
+                                date: record.date,
+                                time: record.time || '-',
+                                studentName: "Semua Hadir",
+                                reason: '-'
+                            });
+                        }
+                    }
+                });
+                // Susun ikut urutan kelas
+                groupedRecords.sort((a, b) => kelasOrder.indexOf(a.class) - kelasOrder.indexOf(b.class));
+                // Papar ke jadual
+                const fragment = document.createDocumentFragment();
+                groupedRecords.forEach(record => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${record.subject}</td>
+                        <td>${record.coordinator}</td>
+                        <td>${record.class}</td>
+                        <td>${record.date}</td>
+                        <td>${record.time}</td>
+                        <td>${record.studentName}</td>
+                        <td>${record.reason}</td>
+                    `;
+                    fragment.appendChild(row);
+                });
+                tableBody.appendChild(fragment);
+                tableDiv.style.display = 'block';
+            } else {
+                tableDiv.style.display = 'none';
+            }
+        });
+    });
 }
-    
-            // Inisialisasi semasa halaman dimuat
-            document.addEventListener('DOMContentLoaded', function() {
-                initializeCoordinatorDropdowns();
+
+        function downloadAnalysisPDF() {
+            const date = document.getElementById('analysisDate').value;
+            if (!date) {
+                alert('Sila pilih tarikh terlebih dahulu!');
+                return;
+            }
+            const doc = new jsPDF();
+            doc.setFontSize(16);
+            doc.text('SENARAI NAMA PELAJAR YANG TIDAK MENDUDUKI PEPERIKSAAN', 105, 20, { align: 'center' });
+            const firstRecord = attendanceRecords.find(record => record.date === date);
+            const examType = firstRecord ? firstRecord.examType : 'Tidak Ditentukan';
+            doc.setFontSize(12);
+            doc.text(`Peperiksaan: ${examType}`, 20, 30);
+            doc.text(`Tarikh: ${date}`, 20, 40);
+            let yPosition = 50;
+            const forms = ['Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'];
+            let hasData = false;
+            forms.forEach((form, index) => {
+                const records = attendanceRecords.filter(record => record.date === date && record.form === form);
+                if (records.length > 0) {
+                    hasData = true;
+                    doc.setFontSize(14);
+                    doc.text(form, 20, yPosition);
+                    yPosition += 10;
+         const groupedRecords = [];
+records.forEach(record => {
+    if (!record.present) {
+        groupedRecords.push({
+            subject: record.subject || '',
+            coordinator: record.coordinator || '-',
+            class: record.class || '',
+            date: record.date || '',
+            time: record.time || '-',
+            studentName: record.studentName,
+            reason: record.reason || '-'
+        });
+    } else if (record.studentName === "Semua Hadir") {
+        const hasAbsent = groupedRecords.some(r => r.class === record.class && r.subject === record.subject && r.date === record.date);
+        if (!hasAbsent) {
+            groupedRecords.push({
+                subject: record.subject || '',
+                coordinator: record.coordinator || '-',
+                class: record.class || '',
+                date: record.date || '',
+                time: record.time || '-',
+                studentName: "Semua Hadir",
+                reason: '-'
             });
-        </script>
-    
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script>(function(){ /* ... Cloudflare script ... */ })();</script>
-    </body>
-    </html>
+        }
+    }
+});
+// <-- LETAK KOD SORT DI SINI
+const kelasOrder = ['Berlian', 'Delima', 'Intan', 'Nilam', 'Topaz', 'Zamrud'];
+groupedRecords.sort((a, b) => {
+    return kelasOrder.indexOf(a.class) - kelasOrder.indexOf(b.class);
+});
+const bodyData = groupedRecords.map(record => [
+    record.subject,
+    record.coordinator,
+    record.class,
+    record.date,
+    record.time,
+    record.studentName,
+    record.reason
+]);
+                    doc.autoTable({
+                        startY: yPosition,
+                        head: [['SUBJEK', 'PENYELARAS', 'KELAS', 'TARIKH', 'MASA', 'NAMA PELAJAR TIDAK HADIR', 'SEBAB']],
+                        body: bodyData,
+                        theme: 'striped',
+                        styles: { fontSize: 10 },
+                        headStyles: { fillColor: [44, 62, 80] },
+                        margin: { left: 20, right: 20 }
+                    });
+                    yPosition = doc.lastAutoTable.finalY + 10;
+                    if (yPosition > 270) {
+                        doc.addPage();
+                        yPosition = 20;
+                    }
+                }
+            });
+            if (!hasData) {
+                alert('Tiada rekod kehadiran untuk tarikh yang dipilih!');
+                return;
+            }
+            doc.setFontSize(10);
+            doc.text('Laporan ini disediakan oleh AJK Tingkatan UPPM MRSM SAS', 105, 280, { align: 'center' });
+            doc.save(`Laporan_Kehadiran_${date}.pdf`);
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+</body>
+</html>
