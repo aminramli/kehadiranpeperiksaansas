@@ -355,6 +355,20 @@
                     <label for="analysisDate" class="form-label">Tarikh:</label>
                     <input type="date" class="form-control" id="analysisDate" onchange="generateAnalysisReport()" required>
                 </div>
+                <div class="row mb-3">
+  
+    <div class="col-md-4">
+        <label for="analysisTingkatan" class="form-label">Tingkatan:</label>
+        <select id="analysisTingkatan" class="form-control" onchange="generateAnalysisReport()">
+            <option value="">Semua Tingkatan</option>
+            <option value="Tingkatan 1">Tingkatan 1</option>
+            <option value="Tingkatan 2">Tingkatan 2</option>
+            <option value="Tingkatan 3">Tingkatan 3</option>
+            <option value="Tingkatan 4">Tingkatan 4</option>
+            <option value="Tingkatan 5">Tingkatan 5</option>
+        </select>
+    </div>
+</div>
                 <div id="tingkatan1Table" style="display: none;">
                         <h3>Tingkatan 1</h3>
                         <table class="table table-striped">
@@ -1200,41 +1214,69 @@ historyTableBody.appendChild(fragment);
         });
 
 function generateAnalysisReport() {
-    const date = document.getElementById('analysisDate').value;
+  const date = document.getElementById('analysisDate').value;
+    const selectedTingkatan = document.getElementById('analysisTingkatan').value;
     const reportOutput = document.getElementById('reportOutput');
-    // Kosongkan reportOutput
     reportOutput.innerHTML = '';
-    // Sembunyikan semua jadual
+
+    // Sembunyikan semua jadual dahulu
     for (let i = 1; i <= 5; i++) {
-        document.getElementById(`tingkatan${i}Table`).style.display = 'none';
+        const tableDiv = document.getElementById(`tingkatan${i}Table`);
+        if (tableDiv) tableDiv.style.display = 'none';
     }
+
     // Jika tiada tarikh, papar mesej sahaja
     if (!date) {
         reportOutput.innerHTML = `<div class="alert alert-info text-center">Sila pilih tarikh untuk muat data.</div>`;
         return;
     }
-    // Jika ada tarikh, masukkan semula jadual ke dalam reportOutput
-    for (let i = 1; i <= 5; i++) {
-        const tableDiv = document.getElementById(`tingkatan${i}Table`);
-        tableDiv.style.display = 'block';
-        reportOutput.appendChild(tableDiv);
+
+    // Tetapkan forms ikut filter tingkatan
+    let forms = ['Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'];
+    if (selectedTingkatan) {
+        forms = [selectedTingkatan];
     }
 
-    // Papar data dari attendanceRecords ikut tarikh
+    // Paparkan hanya jadual tingkatan yang dipilih
+    forms.forEach((form) => {
+           
+        const idx = ['Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'].indexOf(form) + 1;
+        const tableDiv = document.getElementById(`tingkatan${idx}Table`);
+        if (tableDiv) {
+            tableDiv.style.display = 'block';
+         
+        }
+    });
+
+    // Papar data dari attendanceRecords ikut tarikh & tingkatan
     database.ref('attendanceRecords').once('value', (snapshot) => {
         const data = snapshot.val();
         const attendanceRecords = data ? Object.values(data) : [];
-        const forms = ['Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'];
         const kelasOrder = ['Berlian', 'Delima', 'Intan', 'Nilam', 'Topaz', 'Zamrud'];
 
-        forms.forEach((form, index) => {
-            const tableBody = document.getElementById(`tingkatan${index + 1}TableBody`);
-            const tableDiv = document.getElementById(`tingkatan${index + 1}Table`);
+        forms.forEach((form) => {
+
+        console.log('Tarikh:', date, 'Tingkatan:', form);
+        attendanceRecords.forEach(r => console.log('Rekod:', r.form, r.date));
+
+        console.log('Dropdown:', form);
+        attendanceRecords.forEach(r => console.log('Data:', r.form));
+
+            const idx = ['Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'].indexOf(form) + 1;
+            const tableBody = document.getElementById(`tingkatan${idx}TableBody`);
+            const tableDiv = document.getElementById(`tingkatan${idx}Table`);
+            if (!tableBody) return;
             tableBody.innerHTML = '';
-            // Tapis rekod ikut tarikh & tingkatan
-            const records = attendanceRecords.filter(record => record.date === date && record.form === form);
+
+            // Guna filter yang lebih selamat
+                const records = attendanceRecords.filter(record =>
+                    record.date === date &&
+                    record.form && form &&
+                    record.form.trim().toLowerCase() === form.trim().toLowerCase()
+                );
+            
+          
             if (records.length > 0) {
-                // Kumpul dan susun rekod ikut kelas
                 const groupedRecords = [];
                 records.forEach(record => {
                     if (!record.present) {
@@ -1248,7 +1290,6 @@ function generateAnalysisReport() {
                             reason: record.reason || '-'
                         });
                     } else if (record.studentName === "Semua Hadir") {
-                        // Hanya tambah "Semua Hadir" jika tiada pelajar tidak hadir untuk kelas ini
                         const hasAbsent = groupedRecords.some(r => r.class === record.class && r.subject === record.subject && r.date === record.date);
                         if (!hasAbsent) {
                             groupedRecords.push({
@@ -1263,8 +1304,14 @@ function generateAnalysisReport() {
                         }
                     }
                 });
-                // Susun ikut urutan kelas
-                groupedRecords.sort((a, b) => kelasOrder.indexOf(a.class) - kelasOrder.indexOf(b.class));
+                // Sort: subjek > kelas > masa
+                groupedRecords.sort((a, b) => {
+                    if (a.subject !== b.subject) return a.subject.localeCompare(b.subject);
+                    const kelasA = kelasOrder.indexOf(a.class);
+                    const kelasB = kelasOrder.indexOf(b.class);
+                    if (kelasA !== kelasB) return kelasA - kelasB;
+                    return a.time.localeCompare(b.time);
+                });
                 // Papar ke jadual
                 const fragment = document.createDocumentFragment();
                 groupedRecords.forEach(record => {
@@ -1289,95 +1336,113 @@ function generateAnalysisReport() {
     });
 }
 
-        function downloadAnalysisPDF() {
-            const date = document.getElementById('analysisDate').value;
-            if (!date) {
-                alert('Sila pilih tarikh terlebih dahulu!');
-                return;
-            }
-            const doc = new jsPDF();
-            doc.setFontSize(16);
-            doc.text('SENARAI NAMA PELAJAR YANG TIDAK MENDUDUKI PEPERIKSAAN', 105, 20, { align: 'center' });
-            const firstRecord = attendanceRecords.find(record => record.date === date);
-            const examType = firstRecord ? firstRecord.examType : 'Tidak Ditentukan';
-            doc.setFontSize(12);
-            doc.text(`Peperiksaan: ${examType}`, 20, 30);
-            doc.text(`Tarikh: ${date}`, 20, 40);
-            let yPosition = 50;
-            const forms = ['Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'];
-            let hasData = false;
-            forms.forEach((form, index) => {
-                const records = attendanceRecords.filter(record => record.date === date && record.form === form);
-                if (records.length > 0) {
-                    hasData = true;
-                    doc.setFontSize(14);
-                    doc.text(form, 20, yPosition);
-                    yPosition += 10;
-         const groupedRecords = [];
-records.forEach(record => {
-    if (!record.present) {
-        groupedRecords.push({
-            subject: record.subject || '',
-            coordinator: record.coordinator || '-',
-            class: record.class || '',
-            date: record.date || '',
-            time: record.time || '-',
-            studentName: record.studentName,
-            reason: record.reason || '-'
-        });
-    } else if (record.studentName === "Semua Hadir") {
-        const hasAbsent = groupedRecords.some(r => r.class === record.class && r.subject === record.subject && r.date === record.date);
-        if (!hasAbsent) {
-            groupedRecords.push({
-                subject: record.subject || '',
-                coordinator: record.coordinator || '-',
-                class: record.class || '',
-                date: record.date || '',
-                time: record.time || '-',
-                studentName: "Semua Hadir",
-                reason: '-'
-            });
-        }
+       function downloadAnalysisPDF() {
+    const date = document.getElementById('analysisDate').value;
+    const selectedTingkatan = document.getElementById('analysisTingkatan').value;
+    if (!date) {
+        alert('Sila pilih tarikh terlebih dahulu!');
+        return;
     }
-});
-// <-- LETAK KOD SORT DI SINI
-const kelasOrder = ['Berlian', 'Delima', 'Intan', 'Nilam', 'Topaz', 'Zamrud'];
-groupedRecords.sort((a, b) => {
-    return kelasOrder.indexOf(a.class) - kelasOrder.indexOf(b.class);
-});
-const bodyData = groupedRecords.map(record => [
-    record.subject,
-    record.coordinator,
-    record.class,
-    record.date,
-    record.time,
-    record.studentName,
-    record.reason
-]);
-                    doc.autoTable({
-                        startY: yPosition,
-                        head: [['SUBJEK', 'PENYELARAS', 'KELAS', 'TARIKH', 'MASA', 'NAMA PELAJAR TIDAK HADIR', 'SEBAB']],
-                        body: bodyData,
-                        theme: 'striped',
-                        styles: { fontSize: 10 },
-                        headStyles: { fillColor: [44, 62, 80] },
-                        margin: { left: 20, right: 20 }
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text('SENARAI NAMA PELAJAR YANG TIDAK MENDUDUKI PEPERIKSAAN', 105, 20, { align: 'center' });
+    const firstRecord = attendanceRecords.find(record => record.date === date);
+    const examType = firstRecord ? firstRecord.examType : 'Tidak Ditentukan';
+    doc.setFontSize(12);
+    doc.text(`Peperiksaan: ${examType}`, 20, 30);
+    doc.text(`Tarikh: ${date}`, 20, 40);
+    let yPosition = 50;
+    // Pilih tingkatan
+    let forms = ['Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5'];
+    if (selectedTingkatan) {
+        forms = [selectedTingkatan];
+    }
+    let hasData = false;
+    forms.forEach((form, index) => {
+        const records = attendanceRecords.filter(record => record.date === date && record.form === form);
+        if (records.length > 0) {
+            hasData = true;
+            doc.setFontSize(14);
+            doc.text(form, 20, yPosition);
+            yPosition += 10;
+            const groupedRecords = [];
+            records.forEach(record => {
+                if (!record.present) {
+                    groupedRecords.push({
+                        subject: record.subject || '',
+                        coordinator: record.coordinator || '-',
+                        class: record.class || '',
+                        date: record.date || '',
+                        time: record.time || '-',
+                        studentName: record.studentName,
+                        reason: record.reason || '-'
                     });
-                    yPosition = doc.lastAutoTable.finalY + 10;
-                    if (yPosition > 270) {
-                        doc.addPage();
-                        yPosition = 20;
+                } else if (record.studentName === "Semua Hadir") {
+                    const hasAbsent = groupedRecords.some(r => r.class === record.class && r.subject === record.subject && r.date === record.date);
+                    if (!hasAbsent) {
+                        groupedRecords.push({
+                            subject: record.subject || '',
+                            coordinator: record.coordinator || '-',
+                            class: record.class || '',
+                            date: record.date || '',
+                            time: record.time || '-',
+                            studentName: "Semua Hadir",
+                            reason: '-'
+                        });
                     }
                 }
             });
-            if (!hasData) {
-                alert('Tiada rekod kehadiran untuk tarikh yang dipilih!');
-                return;
+            const kelasOrder = ['Berlian', 'Delima', 'Intan', 'Nilam', 'Topaz', 'Zamrud'];
+            groupedRecords.sort((a, b) => {
+             
+            
+            // Sort ikut subjek
+    if (a.subject !== b.subject) return a.subject.localeCompare(b.subject);
+    // Kemudian ikut kelas
+    const kelasA = kelasOrder.indexOf(a.class);
+    const kelasB = kelasOrder.indexOf(b.class);
+    if (kelasA !== kelasB) return kelasA - kelasB;
+    // Kemudian ikut masa
+    return a.time.localeCompare(b.time);
+});
+            
+            const bodyData = groupedRecords.map(record => [
+                record.subject,
+                record.coordinator,
+                record.class,
+                record.date,
+                record.time,
+                record.studentName,
+                record.reason
+            ]);
+            doc.autoTable({
+                startY: yPosition,
+                head: [['SUBJEK', 'PENYELARAS', 'KELAS', 'TARIKH', 'MASA', 'NAMA PELAJAR TIDAK HADIR', 'SEBAB']],
+                body: bodyData,
+                theme: 'striped',
+                styles: { fontSize: 10 },
+                headStyles: { fillColor: [44, 62, 80] },
+                margin: { left: 20, right: 20 }
+            });
+            yPosition = doc.lastAutoTable.finalY + 10;
+            if (yPosition > 270) {
+                doc.addPage();
+                yPosition = 20;
             }
-            doc.setFontSize(10);
-            doc.text('Laporan ini disediakan oleh AJK Tingkatan UPPM MRSM SAS', 105, 280, { align: 'center' });
-            doc.save(`Laporan_Kehadiran_${date}.pdf`);
         }
+    });
+    if (!hasData) {
+        alert('Tiada rekod kehadiran untuk tarikh yang dipilih!');
+        return;
+    }
+    doc.setFontSize(10);
+    doc.text('Laporan ini disediakan oleh AJK Tingkatan UPPM MRSM SAS', 105, 280, { align: 'center' });
+    if (selectedTingkatan) {
+        doc.save(`Laporan_Kehadiran_${selectedTingkatan.replace(/\s/g, '')}_${date}.pdf`);
+    } else {
+        doc.save(`Laporan_Kehadiran_${date}.pdf`);
+    }
+}
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
